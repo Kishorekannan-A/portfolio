@@ -30,7 +30,7 @@
         .content-wrapper {
             position: relative;
             z-index: 1;
-            min-height: 100vh; /* Ensure content wrapper takes full height */
+            min-height: 100vh;
         }
         #particles {
             position: fixed;
@@ -39,7 +39,7 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            display: none; /* Disabled by default, enabled via JS for desktop */
+            display: none;
         }
         .fade-in {
             opacity: 0;
@@ -59,7 +59,7 @@
             z-index: 1;
             margin: 1.5rem 0;
             padding: 1.5rem;
-            min-height: 200px; /* Ensure sections are visible */
+            min-height: 200px;
         }
         .section-container:hover {
             transform: scale(1.02);
@@ -142,7 +142,7 @@
             width: 200px;
             height: 200px;
             margin: 0 auto;
-            overflow: visible; /* Changed to visible to prevent clipping */
+            overflow: visible;
         }
         .profile-img {
             position: absolute;
@@ -206,7 +206,6 @@
         footer p {
             font-weight: 500;
         }
-        /* Hamburger Menu Styles */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -240,12 +239,12 @@
             background-color: #2D2D44;
             padding: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            z-index: 10; /* Ensure menu is above other content */
+            z-index: 10;
         }
         .mobile-menu.active {
             display: flex;
         }
-        /* Mobile Responsive Styles */
+        /* Updated Mobile Responsive Styles */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -254,13 +253,14 @@
                 display: flex;
             }
             .section-container {
-                padding: 1rem;
-                margin: 1rem 0;
-                min-height: auto; /* Allow natural height */
+                padding: 1.5rem; /* Increased padding for better spacing */
+                margin: 1rem 0.5rem; /* Reduced side margins for full-width feel */
+                min-height: auto;
             }
             .profile-img-container {
-                width: 150px;
-                height: 150px;
+                width: 140px; /* Slightly smaller for better fit */
+                height: 140px;
+                margin-bottom: 1.5rem; /* Added spacing below image */
             }
             .section-title {
                 font-size: 1.5rem;
@@ -268,8 +268,13 @@
             .section-divider span {
                 font-size: 1rem;
             }
+            #home {
+                min-height: auto; /* Remove min-h-screen for mobile */
+                padding: 2rem 0; /* Adjusted padding */
+            }
             #home .text-5xl {
-                font-size: 2.5rem;
+                font-size: 2rem; /* Further reduced for balance */
+                line-height: 2.5rem; /* Improved readability */
             }
             #home .text-xl {
                 font-size: 1rem;
@@ -277,24 +282,34 @@
             #home .text-lg {
                 font-size: 0.9rem;
             }
+            #home .button-glow {
+                padding: 0.5rem 1.25rem; /* Smaller button */
+                font-size: 0.85rem;
+            }
             .grid-cols-2, .grid-cols-3, .grid-cols-4 {
                 grid-template-columns: 1fr;
             }
-            .resume-btn, .button-glow {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
+            .resume-btn {
+                padding: 0.5rem 1.25rem;
+                font-size: 0.85rem;
             }
         }
         @media (max-width: 480px) {
             .profile-img-container {
-                width: 120px;
-                height: 120px;
+                width: 100px; /* Smaller for very small screens */
+                height: 100px;
             }
             #home .text-5xl {
-                font-size: 2rem;
+                font-size: 1.5rem; /* Even smaller for tiny screens */
+                line-height: 2rem;
             }
             .section-container {
-                padding: 0.75rem;
+                padding: 1rem;
+                margin: 0.75rem 0.25rem; /* Tighter margins */
+            }
+            #home .button-glow {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -326,11 +341,11 @@
             </div>
         </nav>
 
-        <section id="home" class="min-h-screen flex items-center justify-center py-12">
-            <div class="section-container container mx-auto px-4 flex flex-col md:flex-row items-center fade-in">
-                <div class="md:w-1/2 text-center md:text-left">
+        <section id="home" class="flex items-center justify-center py-8">
+            <div class="section-container container mx-auto px-4 flex flex-col items-center fade-in">
+                <div class="text-center">
                     <h1 class="text-5xl md:text-6xl font-bold mb-4">
-                        <p style="white-space: nowrap;">Hy! I Am <span class="text-[#4FD1C5]">KISHOREKANNAN A</span></p>
+                        <p>Hy! I Am <span class="text-[#4FD1C5]">KISHOREKANNAN A</span></p>
                     </h1>
                     <p class="text-xl mb-4">
                         Java Developer | Web Dev Learner | ML Enthusiast
@@ -340,7 +355,7 @@
                     </p>
                     <a href="#contact" class="button-glow px-6 py-3 rounded-full font-semibold">Hire Me</a>
                 </div>
-                <div class="md:w-1/2 mt-6 md:mt-0">
+                <div class="mt-6">
                     <div class="profile-img-container">
                         <img src="crop image.jpeg" alt="Kishore Kannan" class="profile-img" oncontextmenu="return false;" ondragstart="return false;">
                         <div class="img-overlay"></div>
@@ -349,6 +364,7 @@
             </div>
         </section>
 
+        <!-- Rest of the sections (Skills, Projects, Certifications, Resume, Contact, Footer) remain unchanged -->
         <div class="section-divider"><span>◇</span></div>
 
         <section id="skills" class="py-12">
@@ -598,7 +614,6 @@
             requestAnimationFrame(animate);
         }
 
-        // Enable particles only on desktop
         if (window.innerWidth >= 768) {
             canvas.style.display = 'block';
             init();
@@ -623,11 +638,10 @@
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1, rootMargin: '50px' }); // Added rootMargin for early trigger
+        }, { threshold: 0.1, rootMargin: '50px' });
 
         fadeElements.forEach(element => {
             observer.observe(element);
-            // Fallback: make visible after 2s if observer fails
             setTimeout(() => {
                 element.classList.add('visible');
             }, 2000);
@@ -641,7 +655,6 @@
             mobileMenu.classList.toggle('active');
         });
 
-        // Close mobile menu when a link is clicked
         document.querySelectorAll('.mobile-menu .nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
