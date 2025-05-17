@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KISHOREKANNAN A's Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            scroll-behavior: smooth;
+            background: linear-gradient(135deg, #1E1E2F 0%, #2A2A4A 50%, #3B3B5C 100%);
+            position: relative;
+            overflow-x: hidden;
+            color: #E2E8F0;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1E1E2F 0%, #2A2A4A 50%, #3B3B5C 100%);
+            z-index: -1;
+            transform: translateZ(0);
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh; /* Ensure content wrapper takes full height */
+        }
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: none; /* Disabled by default, enabled via JS for desktop */
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-container {
+            background: #2D2D44;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            min-height: 200px; /* Ensure sections are visible */
+        }
+        .section-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+        .section-divider {
+            position: relative;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #5B5B7A, transparent);
+            z-index: -1;
+        }
+        .section-divider span {
+            background: #2A2A4A;
+            padding: 0 1rem;
+            font-size: 1.25rem;
+            color: #4FD1C5;
+        }
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #3B3B5C;
+            border: 1px solid #5B5B7A;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            position: relative;
+            display: inline-block;
+            color: #E2E8F0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            font-weight: 700;
+            font-size: 2rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background: #4FD1C5;
+            border-radius: 1px;
+        }
+        .nav-link {
+            position: relative;
+            color: #4FD1C5;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: #81E6D9;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #81E6D9;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .profile-img-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            overflow: visible; /* Changed to visible to prevent clipping */
+        }
+        .profile-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 3px solid #5B5B7A;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 0.5rem;
+            user-select: none;
+        }
+        .profile-img:hover {
+            transform: translate(-50%, -50%) scale(1.02);
+        }
+        .img-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 5;
+        }
+        .button-glow {
+            background-color: #319795;
+            color: #ffffff !important;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#319795, #319795), linear-gradient(to right, #4FD1C5, #81E6D9);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            transition: background-image 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+        .button-glow:hover {
+            background-image: linear-gradient(#81E6D9, #81E6D9), linear-gradient(to right, #4FD1C5, #81E6D9);
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.5);
+        }
+        .skill-card, .cert-card, .resume-btn {
+            background-color: #3B3B5C;
+            border: 1px solid #5B5B7A;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        .subheading, a:not(.nav-link) {
+            color: #4FD1C5;
+            font-weight: 600;
+        }
+        a:not(.nav-link):hover {
+            color: #81E6D9;
+        }
+        nav, footer {
+            background-color: #2D2D44;
+            color: #E2E8F0;
+        }
+        footer p {
+            font-weight: 500;
+        }
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            cursor: pointer;
+        }
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background-color: #E2E8F0;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #2D2D44;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 10; /* Ensure menu is above other content */
+        }
+        .mobile-menu.active {
+            display: flex;
+        }
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .section-container {
+                padding: 1rem;
+                margin: 1rem 0;
+                min-height: auto; /* Allow natural height */
+            }
+            .profile-img-container {
+                width: 150px;
+                height: 150px;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .section-divider span {
+                font-size: 1rem;
+            }
+            #home .text-5xl {
+                font-size: 2.5rem;
+            }
+            #home .text-xl {
+                font-size: 1rem;
+            }
+            #home .text-lg {
+                font-size: 0.9rem;
+            }
+            .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+            .resume-btn, .button-glow {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .profile-img-container {
+                width: 120px;
+                height: 120px;
+            }
+            #home .text-5xl {
+                font-size: 2rem;
+            }
+            .section-container {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="parallax-bg"></div>
+    <canvas id="particles"></canvas>
+    <div class="content-wrapper">
+        <nav class="sticky top-0 shadow-md z-10">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-bold text-[#E2E8F0]">Kishorekannan A</h1>
+                <div class="nav-links space-x-4">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="mobile-menu">
+                    <a href="#home" class="nav-link py-2">Home</a>
+                    <a href="#skills" class="nav-link py-2">Skills</a>
+                    <a href="#projects" class="nav-link py-2">Projects</a>
+                    <a href="#contact" class="nav-link py-2">Contact</a>
+                </div>
+            </div>
+        </nav>
+
+        <section id="home" class="min-h-screen flex items-center justify-center py-12">
+            <div class="section-container container mx-auto px-4 flex flex-col md:flex-row items-center fade-in">
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                        <p style="white-space: nowrap;">Hy! I Am <span class="text-[#4FD1C5]">KISHOREKANNAN A</span></p>
+                    </h1>
+                    <p class="text-xl mb-4">
+                        Java Developer | Web Dev Learner | ML Enthusiast
+                    </p>
+                    <p class="text-lg mb-6">
+                        I enjoy solving problems and building beginner-friendly, impactful projects.
+                    </p>
+                    <a href="#contact" class="button-glow px-6 py-3 rounded-full font-semibold">Hire Me</a>
+                </div>
+                <div class="md:w-1/2 mt-6 md:mt-0">
+                    <div class="profile-img-container">
+                        <img src="crop image.jpeg" alt="Kishore Kannan" class="profile-img" oncontextmenu="return false;" ondragstart="return false;">
+                        <div class="img-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"><span>◇</span></div>
+
+        <section id="skills" class="py-12">
+            <div class="section-container container mx-auto px-4 fade-in">
+                <h2 class="text-4xl font-bold text-center mb-8 section-title">
+                    My Skills
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="skill-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-4">Languages</h3>
+                        <ul class="space-y-2">
+                            <li>Java</li>
+                            <li>Python</li>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JavaScript</li>
+                            <li>SQL</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-4">Web Development</h3>
+                        <ul class="space-y-2">
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JavaScript</li>
+                            <li>Flask (learning)</li>
+                            <li>MySQL</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-4">Databases</h3>
+                        <ul class="space-y-2">
+                            <li>MySQL</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-4">ML Tools</h3>
+                        <ul class="space-y-2">
+                            <li>scikit-learn</li>
+                            <li>pandas</li>
+                            <li>NumPy</li>
+                            <li>Colab</li>
+                            <li>TensorFlow (basics)</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-4">Problem Solving</h3>
+                        <ul class="space-y-2">
+                            <li>LeetCode</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"><span>◇</span></div>
+
+        <section id="projects" class="py-12">
+            <div class="section-container container mx-auto px-4 fade-in">
+                <h2 class="text-4xl font-bold text-center mb-8 section-title">
+                    My Projects
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="project-card fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Java Expense Tracker (Console App)</h3>
+                        <p class="mb-4">
+                            A simple command-line expense manager built using Java with file storage and user input.
+                        </p>
+                        <p><strong>Tech:</strong> Java, File I/O</p>
+                        <a href="https://github.com/Kishorekannan-A/java-codes/blob/main/expense_tracker.java">GitHub</a>
+                    </div>
+                    <div class="project-card fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Medicine Recommendation System</h3>
+                        <p class="mb-4">
+                            Predicts medicine based on symptoms using ML with a Flask-based web frontend.
+                        </p>
+                        <p><strong>Tech:</strong> Python, Flask, HTML, CSS</p>
+                        <a href="Live Demo Placeholder" class="mr-4">Live Demo</a>
+                        <a href="https://github.com/Kishorekannan-A/medicine_recommendation">GitHub</a>
+                    </div>
+                    <div class="project-card fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Carbon Footprint Calculator</h3>
+                        <p class="mb-4">
+                            A web app that estimates your carbon usage based activity.
+                        </p>
+                        <p><strong>Tech:</strong> HTML, CSS, JavaScript</p>
+                        <a href="https://carbonfootprint-calc.netlify.app" class="mr-4">Live Demo</a>
+                        <a href="https://github.com/Kishorekannan-A/carbon-footprint-calculator">GitHub</a>
+                    </div>
+                    <div class="project-card fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">To-Do App</h3>
+                        <p class="mb-4">
+                            Simple and responsive frontend for managing tasks.
+                        </p>
+                        <p><strong>Tech:</strong> HTML, CSS, JavaScript</p>
+                        <a href="https://letsmark-itdown.netlify.app/" class="mr-4">Live Demo</a>
+                        <a href="https://github.com/Kishorekannan-A/todo-app">GitHub</a>
+                    </div>
+                    <div class="project-card fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Leaf Disease Prediction</h3>
+                        <p class="mb-4">
+                            ML model that classifies plant leaf diseases from images using TensorFlow basics.
+                        </p>
+                        <p><strong>Tech:</strong> Python, TensorFlow</p>
+                        <a href="https://github.com/Kishorekannan-A/ai-ml/blob/main/leaf_disease_prediction.py">GitHub</a>
+                    </div>
+                    <div class="project-card fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Silver Price Prediction</h3>
+                        <p class="mb-4">
+                            A basic ML regression model to predict silver prices based on historical data.
+                        </p>
+                        <p><strong>Tech:</strong> Python, scikit-learn, pandas</p>
+                        <a href="https://github.com/Kishorekannan-A/ai-ml/blob/main/price_prediction.py">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"><span>◇</span></div>
+
+        <section id="certifications" class="py-12">
+            <div class="section-container container mx-auto px-4 fade-in">
+                <h2 class="text-4xl font-bold text-center mb-8 section-title">
+                    Certifications
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    <div class="cert-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Java Programming</h3>
+                        <p>Great Learning</p>
+                    </div>
+                    <div class="cert-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Scalable Implementation Of DSA</h3>
+                        <p>University of Dallas, Texas</p>
+                    </div>
+                    <div class="cert-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">Cloud Computing</h3>
+                        <p>NPTEL</p>
+                    </div>
+                    <div class="cert-card shadow-sm fade-in">
+                        <h3 class="text-xl font-semibold subheading mb-2">MySQL Database Management</h3>
+                        <p>Coursera</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"><span>◇</span></div>
+
+        <section id="resume" class="py-12">
+            <div class="section-container container mx-auto px-4 fade-in">
+                <h2 class="text-4xl font-bold text-center mb-8 section-title">
+                    Resume
+                </h2>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="KISHOREKANNAN-A(3).pdf" class="resume-btn px-6 py-3 rounded-full font-semibold button-glow fade-in">
+                        Download Web Developer Resume
+                    </a>
+                    <a href="KISHOREKANNAN-A(2).pdf" class="resume-btn px-6 py-3 rounded-full font-semibold button-glow fade-in">
+                        Download AI/ML Resume
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"><span>◇</span></div>
+
+        <section id="contact" class="py-12">
+            <div class="section-container container mx-auto px-4 fade-in">
+                <h2 class="text-4xl font-bold text-center mb-8 section-title">
+                    Get in Touch
+                </h2>
+                <div class="max-w-lg mx-auto text-center space-y-4">
+                    <div class="fade-in">
+                        <p class="text-lg">Email:</p>
+                        <a href="mailto:kishorekannan.arul15@gmail.com?subject=Hello%20Kishore!&body=I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect!">
+                            kishorekannan.arul15@gmail.com
+                        </a>
+                    </div>
+                    <div class="fade-in">
+                        <p class="text-lg">LinkedIn:</p>
+                        <a href="https://www.linkedin.com/in/kishore-kannan-080b96224">LinkedIn Profile</a>
+                    </div>
+                    <div class="fade-in">
+                        <p class="text-lg">GitHub:</p>
+                        <a href="https://github.com/Kishorekannan-A">GitHub Profile</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-6 text-center">
+            <p>© 2025 Kishore Kannan. Built with HTML and CSS.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Parallax effect
+        window.addEventListener('scroll', function() {
+            const parallax = document.querySelector('.parallax-bg');
+            let scrollPosition = window.pageYOffset;
+            parallax.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
+        });
+
+        // Particle effect (only for desktop)
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 50;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = Math.random() > 0.5 ? 'rgba(79, 209, 197, 0.5)' : 'rgba(255, 255, 255, 0.5)';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // Enable particles only on desktop
+        if (window.innerWidth >= 768) {
+            canvas.style.display = 'block';
+            init();
+            animate();
+        }
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if (window.innerWidth < 768) {
+                canvas.style.display = 'none';
+            } else {
+                canvas.style.display = 'block';
+            }
+        });
+
+        // Fade-in effect with fallback
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '50px' }); // Added rootMargin for early trigger
+
+        fadeElements.forEach(element => {
+            observer.observe(element);
+            // Fallback: make visible after 2s if observer fails
+            setTimeout(() => {
+                element.classList.add('visible');
+            }, 2000);
+        });
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.mobile-menu .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
